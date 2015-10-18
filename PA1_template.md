@@ -1,15 +1,10 @@
----
-title: 'Reproducible Research: Peer Assessment 1'
-output:
-  html_document:
-    keep_md: yes
-  pdf_document: default
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
 
-```{r}
+
+```r
 ##loading the libraries we'll use
 library("plyr")
 library("ggplot2")
@@ -52,8 +47,8 @@ activityDFNAsRemoved <- na.omit(activityDF)
 
 
 ## What is mean total number of steps taken per day?
-```{r}
 
+```r
 ##function for taking the sum of the days steps
 findDailyTotal <- function(x) {
         result <- sum(x$steps)
@@ -72,17 +67,29 @@ medianTotalNumberOfStepsTakenPerDay <- as.numeric(median(daySteps$TotalSteps))
 hist(daySteps$TotalSteps, col = "Red", main = "Frequency of Total Steps Per Day", xlab = "Total Steps", ylab = "Frequency")
 ```
 
-```{r}
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+
+
+```r
 meanTotalNumberOfStepsTakenPerDay
 ```
 
-```{r}
+```
+## [1] 10766.19
+```
+
+
+```r
 medianTotalNumberOfStepsTakenPerDay
 ```
 
-## What is the average daily activity pattern?
-```{r}
+```
+## [1] 10765
+```
 
+## What is the average daily activity pattern?
+
+```r
 ## creating a list of the all available time intervals
 listOfTimes <- unique(activityDF$Time)
 
@@ -124,29 +131,40 @@ intervalWithHighestAverageNumberOfSteps <- fiveMinAverages[which.max(fiveMinAver
 
 ##plotting
 plot(interval, fiveMinAverages$avgStepsPerFiveMinuteInterval, type = "s", main = "Average Steps Taken Per Five Minute Interval For All Days", xlab = "Interval", ylab = "Average Steps Taken During Interval")
-
-
 ```
 
-```{r}
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+
+
+```r
 intervalWithHighestAverageNumberOfSteps
+```
+
+```
+## [1] "18:45"
 ```
 
 ## Imputing missing values
 
-```{r}
+
+```r
 ##Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
 ##this is equal to the difference between the number of rows in the original dataset, and the number of rows in the dataset after the NAs were removed
 
 totalNAs <- as.numeric(nrow(activityDF) - nrow(activityDFNAsRemoved))
 ```
 
-```{r}
+
+```r
 totalNAs
 ```
 
-```{r}
+```
+## [1] 2304
+```
 
+
+```r
 ##Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 ##I choose the mean for the 5-minute interval
 
@@ -183,18 +201,31 @@ medianTotalNumberOfStepsTakenPerDayWithReplacement <- as.numeric(median(daySteps
 hist(dayStepsWithReplacement$TotalSteps, col = "Red", main = "Frequency of Total Steps Per Day With Replacement For NA Values", xlab = "Total Steps", ylab = "Frequency")
 ```
 
-```{r}
+![](PA1_template_files/figure-html/unnamed-chunk-9-1.png) 
+
+
+```r
 meanTotalNumberOfStepsTakenPerDayWithReplacement
 ```
 
-```{r}
+```
+## [1] 13665.44
+```
+
+
+```r
 medianTotalNumberOfStepsTakenPerDayWithReplacement
+```
+
+```
+## [1] 11458
 ```
 
 ## The addition of the values in place of the NAs did slightly alter the outcome of the data
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r}
+
+```r
 ##adding a day of the week indicator to the "All Records" dataset
 allRecordsDF$day <- weekdays(allRecordsDF$Timestamp)
 
@@ -251,16 +282,31 @@ WeekendintervalWithHighestAverageNumberOfSteps <- fiveMinAveragesWeekend[which.m
 
 ##plotting
 plot(interval, fiveMinAveragesWeekday$avgStepsPerFiveMinuteIntervalWeekday, type = "s", main = "Average Steps Taken Per Five Minute Interval For Weekdays", xlab = "Interval", ylab = "Average Steps Taken During Interval")
-plot(interval, fiveMinAveragesWeekend$avgStepsPerFiveMinuteIntervalWeekend, type = "s", main = "Average Steps Taken Per Five Minute Interval For Weekends", xlab = "Interval", ylab = "Average Steps Taken During Interval")
- 
-##ran out of time to make it pretty
 ```
 
-```{r}
+![](PA1_template_files/figure-html/unnamed-chunk-12-1.png) 
+
+```r
+plot(interval, fiveMinAveragesWeekend$avgStepsPerFiveMinuteIntervalWeekend, type = "s", main = "Average Steps Taken Per Five Minute Interval For Weekends", xlab = "Interval", ylab = "Average Steps Taken During Interval")
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-12-2.png) 
+
+
+```r
 WeekdayintervalWithHighestAverageNumberOfSteps
 ```
 
-```{r}
+```
+## [1] "18:30"
+```
+
+
+```r
 WeekendintervalWithHighestAverageNumberOfSteps
+```
+
+```
+## [1] "19:05"
 ```
 
